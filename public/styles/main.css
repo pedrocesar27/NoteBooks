@@ -1,0 +1,171 @@
+body{
+    background-color: antiquewhite;
+    margin: 0;
+}
+
+.navbar{
+    width: 100%;
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+}
+
+.nav-items ul{
+    display: flex;
+    flex-direction: row;
+    gap: 5vh;
+    margin-right: 5vh;
+    list-style-type: none;
+    align-items: center;
+}
+
+.nav-items a{
+    text-decoration: none;
+    font-size: 2vh
+}
+
+.nav-items button{
+    background-color: olive;
+    color: white;
+    width: 15vh;
+    height: 4vh;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.read{
+    color: olive;
+}
+
+.logout{
+    color: rgb(179, 0, 0);
+}
+
+.logo{
+    display: flex;
+    flex-direction: row;
+    margin-left: 5vh;
+    gap: 1vh;
+
+}
+
+.welcome{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.book-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5vh;
+    margin-bottom: 5vh;
+}
+
+.item{
+    display: grid;
+    grid-template-columns: 12vh 30vh;
+    margin-block: 0;
+}
+
+.item p {
+    margin: 0;
+}
+
+.title-item{
+    font-weight: bold;
+    font-size: 1.2rem;
+    grid-column: 2;
+}
+
+.author-item{
+    color: rgb(109, 109, 0);
+    grid-column: 2;
+}
+
+.rating{
+    color: rgb(255, 200, 0);
+    grid-column: 2;
+}
+
+.description-item{
+    grid-column: 2;
+}
+
+.add-item{
+    grid-column: 2;
+}
+
+.book-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: olive;
+    height: 80px;
+    width: 80px;
+    grid-column: 1;
+    grid-row: 1/6;
+    border-radius: 18px;
+}
+
+.book-item img{
+    height: 50px;
+}
+
+.button-book{
+    position: fixed;
+    display: none;
+    top: 10vh;
+    right: 40px;
+    height: 340px;
+    width: 500px;
+    background-color: rgb(224, 211, 193);
+    border-radius: 10px;
+
+}
+
+.content-new-book{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-book{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1vh;
+}
+
+.input-new{
+    background-color: antiquewhite;
+    height: 3vh;
+    width: 30vh;
+    border: none;
+    border-radius: 8px;
+    padding-left: 4px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.button-book button{
+    height: 4vh;
+    width: 15vh;
+    background-color: olive;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#new-description{
+    resize: none;
+    height: 10vh;
+}

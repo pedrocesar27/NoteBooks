@@ -25,7 +25,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 10 }
+    cookie: { maxAge: 1000 * 60 * 60 }
 }));
 
 let users = [];
@@ -69,23 +69,29 @@ app.get("/login", async (req, res) => {
     res.render("login.ejs",  { error: null });
 });
 
+app.get("/logout", (req, res) => {
+    req.session.destroy(error => {
+        if(error) {
+            console.log(error);
+            return res.redirect("/");
+        }
+        res.clearCookie("connect.sid");
+        res.redirect("/login");
+    })
+})
+
 app.get("/createAccount", async (req, res) => {
     res.render("createAccount.ejs", { error: null });
 })
 
 app.get("/", requireLogin, async (req, res) => {
-    try{
-        const currentUser = await getCurrentUser();
-        const result = await db.query("SELECT * FROM books WHERE user_id = $1 ORDER BY id ASC", [currentUser.id]);
-        books = result.rows;
-        res.render("index.ejs", {
-            listItems: books,
-            ratingStars: books.ratings,
-            user: currentUser
-        });
-    } catch(error) {
-
-    }
+    const currentUser = await getCurrentUser();
+    const result = await db.query("SELECT * FROM books WHERE user_id = $1 ORDER BY id ASC", [currentUser.id]);
+    books = result.rows;
+    res.render("index.ejs", {
+        listItems: books,
+        user: currentUser
+    });
 });
 
 app.post("/login", async (req, res) => {
@@ -121,6 +127,25 @@ app.post("/createAccount", async (req, res) => {
     );
     res.redirect("/login");
 });
+
+app.post("/addBook", requireLogin, async (req, res) => {
+    const {bookTitle, bookAuthor, bookDescription, bookRate} = req.body;
+    
+    currentUserId = req.session.userId;
+
+    const rating = parseInt(bookRate);
+
+    const result = await db.query("SELECT * FROM books WHERE user_id = $1", [currentUserId]);
+    books = result.rows;
+    const findBook = books.find((book) => book.title == bookTitle);
+    if(findBook){
+        return res.render("index.ejs", { error: "Book has already been added!" });
+    }
+    await db.query("INSERT INTO books (user_id, title, author, description, rating) VALUES ($1, $2, $3, $4, $5);", 
+        [currentUserId, bookTitle, bookAuthor, bookDescription, rating]);
+
+    res.redirect("/");
+})
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

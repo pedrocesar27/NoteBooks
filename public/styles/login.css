@@ -1,0 +1,54 @@
+body{
+    background-color: antiquewhite;
+    margin: 0;
+}
+
+.container{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.form-login{
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.icon{
+    
+    height: 3rem;
+    fill: darkolivegreen;
+}
+
+.login-logo h1{
+    font-size: 3rem;
+}
+
+.input-logo {
+    height: 3vh;
+    width: 30vh;
+    border-radius: 13px;
+    color: black;
+    padding-left: 15px;
+    background-color: antiquewhite;
+}
+
+.form-login button {
+    height: 4vh;
+    width: 15vh;
+    border-radius: 18px;
+    background-color: olive;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.box-hidden {
+    color: rgb(173, 0, 0);
+}

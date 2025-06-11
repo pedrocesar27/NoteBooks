@@ -11,35 +11,49 @@
         <div class="navbar">
             <div class="logo">
                 <img src="/assets/icons/journal-bookmark-fill.svg" alt="logo notebooks">
-                <h2>
+                <h3>
                     NoteBooks
-                </h2>
+                </h3>
             </div>
-            <div class="nav-itens">
+            <div class="nav-items">
                 <ul>
-                    <li>Something to read</li>
-                    <li>+ Add Book</li>
-                    <li>Log out</li>
+                    <li><a href="/read" class="read">Something to read</a></li>
+                    <li><button id="add-book-btn">+ Add Book</button></li>
+                    <li><a href="/logout" class="logout">Log out</a></li>
                 </ul>
             </div>
         </div>
     </header>
+    <section class="button-book">
+        <div class="content-new-book">
+            <h3>Add a new Book</h3>
+            <form class="add-book" action="/addBook" method="POST">
+                <input type="text" class="input-new" name="bookTitle" id="new-title" placeholder="Book title">
+                <input type="text" class="input-new" name="bookAuthor" id="new-author" placeholder="Book author">
+                <textarea class="input-new" name="bookDescription" id="new-description" placeholder="Book description" wrap="hard"></textarea>
+                <input type="number" class="input-new" name="bookRate" id="new-rate" min="1" max="5" placeholder="Book rate">
+
+                <button type="submit">Add Book</button>
+            </form>
+        </div>
+    </section>
     <section class="welcome">
         <h1>Hello, <%= user.username %>!</h1>
     </section>
     <section class="book-list">
+        <h2>Your NoteBooks</h2>
         <% for(let item of listItems){ %>
             <div class="item">
                 <div class="book-item">
                     <img src="/assets/icons/book.svg" alt="book item icon">
                 </div>
-                <p id="title<%= item.id %>">
+                <p class="title-item">
                     <%= item.title %>
                 </p>
-                <p id="author<%= item.id %>">
+                <p class="author-item">
                     <%= item.author %>
                 </p>
-                <p id="description<%= item.id %>">
+                <p class="description-item">
                     <%= item.description %>
                 </p>
                 <div class="rating">
@@ -51,12 +65,14 @@
                         <% } %>
                     <% } %>
                 </div>
-                <p id="add<%= item.id %>">
+                <p class="add-item">
                     <%= item.added_at %>
                 </p>
             </div>
         <% } %>
     </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/scripts/main.js"></script>
 </body>
 </html>
