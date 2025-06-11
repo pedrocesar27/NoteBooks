@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+</head>
+<body>
+    <div class="container">
+        <div class="box-login">
+            <div class="login-logo">
+                <img class="icon" src="/assets/icons/journal-bookmark-fill" alt="logo">
+                <h1>NoteBooks</h1>
+            </div>
+            <% if(error){ %>
+                <div class="box-hidden">
+                    <h3>Something went wrong!</h3>
+                    <p><%= error %></p>
+                </div>
+            <% } %>
+            <form class="form-login" action="/createAccount" method="POST">
+                <input class="input-logo" type="text" name="username" placeholder="Username" required>
+                <input class="input-logo" type="email" name="email" id="email" placeholder="Email Address" required>
+                <input class="input-logo" type="password" name="fPassword" placeholder="Create password" required>
+                <input class="input-logo" type="password" name="lPassword" placeholder="Confirm password" required>
+
+                <button type="submit">Create account</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

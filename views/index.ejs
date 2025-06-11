@@ -3,9 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/main.css">
     <title>NoteBooks</title>
 </head>
 <body>
-    
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <img src="/assets/icons/journal-bookmark-fill.svg" alt="logo notebooks">
+                <h2>
+                    NoteBooks
+                </h2>
+            </div>
+            <div class="nav-itens">
+                <ul>
+                    <li>Something to read</li>
+                    <li>+ Add Book</li>
+                    <li>Log out</li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <section class="welcome">
+        <h1>Hello, <%= user.username %>!</h1>
+    </section>
+    <section class="book-list">
+        <% for(let item of listItems){ %>
+            <div class="item">
+                <div class="book-item">
+                    <img src="/assets/icons/book.svg" alt="book item icon">
+                </div>
+                <p id="title<%= item.id %>">
+                    <%= item.title %>
+                </p>
+                <p id="author<%= item.id %>">
+                    <%= item.author %>
+                </p>
+                <p id="description<%= item.id %>">
+                    <%= item.description %>
+                </p>
+                <div class="rating">
+                    <% for (let i = 1; i <= 5; i++) { %>
+                        <% if (i <= item.rating) { %>
+                            <span class="star filled">★</span>
+                        <% } else { %>
+                            <span class="star">☆</span>
+                        <% } %>
+                    <% } %>
+                </div>
+                <p id="add<%= item.id %>">
+                    <%= item.added_at %>
+                </p>
+            </div>
+        <% } %>
+    </section>
+    <script src="/scripts/main.js"></script>
 </body>
 </html>
