@@ -37,10 +37,10 @@
             </form>
         </div>
     </section>
-    <section class="welcome">
-        <h1>Hello, <%= user.username %>!</h1>
-    </section>
     <section class="book-list">
+        <div class="welcome">
+            <h1>Hello, <%= user.username %>!</h1>
+        </div>
         <h2>Your NoteBooks</h2>
         <% for(let item of listItems){ %>
             <div class="item">

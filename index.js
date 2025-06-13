@@ -30,7 +30,6 @@ app.use(session({
 
 let users = [];
 let books = [];
-let currentUserId;
 
 async function checkAccount(req){
     const inputEmail = req.body.email;
@@ -59,9 +58,10 @@ function requireLogin(req, res, next){
     next();
 }
 
-async function getCurrentUser(){
+async function getCurrentUser(req){
     const result = await db.query("SELECT * FROM users;");
     users = result.rows;
+    const currentUserId = req.session.userId;
     return users.find((user) => user.id == currentUserId);
 }
 
@@ -77,15 +77,15 @@ app.get("/logout", (req, res) => {
         }
         res.clearCookie("connect.sid");
         res.redirect("/login");
-    })
-})
+    });
+});
 
 app.get("/createAccount", async (req, res) => {
     res.render("createAccount.ejs", { error: null });
 })
 
 app.get("/", requireLogin, async (req, res) => {
-    const currentUser = await getCurrentUser();
+    const currentUser = await getCurrentUser(req);
     const result = await db.query("SELECT * FROM books WHERE user_id = $1 ORDER BY id ASC", [currentUser.id]);
     books = result.rows;
     res.render("index.ejs", {
@@ -98,7 +98,6 @@ app.post("/login", async (req, res) => {
     const user = await checkAccount(req);
     if(user){
         req.session.userId = user.id;
-        currentUserId = req.session.userId
         req.session.loggedInAt = new Date();
         await db.query("UPDATE users SET last_login = NOW() WHERE id = $1", [user.id]);
         res.redirect("/");
@@ -131,7 +130,7 @@ app.post("/createAccount", async (req, res) => {
 app.post("/addBook", requireLogin, async (req, res) => {
     const {bookTitle, bookAuthor, bookDescription, bookRate} = req.body;
     
-    currentUserId = req.session.userId;
+    const currentUserId = req.session.userId;
 
     const rating = parseInt(bookRate);
 
