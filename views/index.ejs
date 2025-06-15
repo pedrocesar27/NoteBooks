@@ -43,7 +43,7 @@
         </div>
         <h2>Your NoteBooks</h2>
         <% for(let item of listItems){ %>
-            <div class="item">
+            <div class="item" data-id="<%= item.id %>">
                 <div class="book-item">
                     <img src="/assets/icons/book.svg" alt="book item icon">
                 </div>

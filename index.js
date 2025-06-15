@@ -30,6 +30,7 @@ app.use(session({
 
 let users = [];
 let books = [];
+let notes = [];
 
 async function checkAccount(req){
     const inputEmail = req.body.email;
@@ -82,6 +83,31 @@ app.get("/logout", (req, res) => {
 
 app.get("/createAccount", async (req, res) => {
     res.render("createAccount.ejs", { error: null });
+});
+
+app.get("/book/:id", requireLogin, async (req, res) => {
+    const bookId = req.params.id;
+    const currentUserId = req.session.userId;
+    const result = await db.query("SELECT * FROM books WHERE id = $1 AND user_id = $2;", [
+        bookId, currentUserId
+    ]);
+    const book = result.rows[0];
+
+    if(!book){
+        res.status()
+        return res.redirect("/");
+    }
+
+    const resultNotes = await db.query("SELECT * FROM notes WHERE book_id = $1 AND user_id = $2;", [
+        bookId, currentUserId
+    ]);
+    notes = resultNotes.rows;
+
+    res.render("book.ejs", { 
+        thisBook: book,
+        listNotes: notes,
+        bookId: book.id
+    });
 })
 
 app.get("/", requireLogin, async (req, res) => {
@@ -145,6 +171,22 @@ app.post("/addBook", requireLogin, async (req, res) => {
 
     res.redirect("/");
 })
+
+app.post("/newNote/:id", requireLogin, async (req, res) => {
+    const note = req.body.note;
+    const bookId = req.params.id;
+    const currentUserId = req.session.userId;
+    const result = await db.query("SELECT * FROM books WHERE user_id = $1", [currentUserId]);
+    books = result.rows;
+    const findBook = books.find((book) => book.id == bookId)
+    if(findBook){
+        await db.query("INSERT INTO notes (book_id, user_id, content) VALUES ($1, $2, $3);", [findBook.id, currentUserId, note]);
+        res.status(200);
+        res.redirect(`/book/${bookId}`);
+    } else {
+        res.sendStatus(404);
+    }
+});
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

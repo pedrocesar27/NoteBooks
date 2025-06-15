@@ -3,9 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <title><%= thisBook.title %></title>
 </head>
 <body>
-    
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <img src="/assets/icons/journal-bookmark-fill.svg" alt="logo notebooks">
+                <h3>
+                    NoteBooks
+                </h3>
+            </div>
+            <div class="nav-items">
+                <a href="/logout" class="logout">Log out</a>
+            </div>
+        </div>
+    </header>
+    <section class="book-page">
+        <div class="book-details">
+            <div class="book-icon">
+                <img src="/assets/icons/book.svg" alt="book item icon">
+            </div>
+            <div class="book-title">
+                <h1><%= thisBook.title %></h1>
+                <h2><%= thisBook.author %></h2>
+            </div>
+            <div class="book-description">
+                <p><%= thisBook.description %></p>
+                <div class="rating">
+                    <% for(let i = 1; i <= 5; i++) { %>
+                        <% if (i <= thisBook.rating) { %>
+                            <span class="star filled">★</span>
+                        <% } else { %>
+                            <span class="star">☆</span>
+                        <% } %>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="book-notes">
+            <h2>Notes</h2>
+            <% for(let note of listNotes){ %>
+                <div class="note">
+                    <h3>Note <%= note.id %></h3>
+                    <p><%= note.content %></p>
+                    <p><%= note.created_at %></p>
+                    <button>
+                        Delete
+                    </button>
+                </div>
+            <% } %>
+        </div>
+        <div class="new-note">
+            <h2>New Note</h2>
+            <form action="/newNote/<%= bookId %>" method="POST" class="new-note-box">
+                <textarea name="note" id="new-note"></textarea>
+                <button type="submit">+ Add Note</button>
+            </form>
+        </div>
+    </section>
+
 </body>
 </html>
