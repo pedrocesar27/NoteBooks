@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/main.css">
-    <title><%= thisBook.title %></title>
+    <title><%= book.title %></title>
 </head>
 <body>
     <header>
@@ -26,14 +26,14 @@
                 <img src="/assets/icons/book.svg" alt="book item icon">
             </div>
             <div class="book-title">
-                <h1><%= thisBook.title %></h1>
-                <h2><%= thisBook.author %></h2>
+                <h1><%= book.title %></h1>
+                <h2><%= book.author %></h2>
             </div>
             <div class="book-description">
-                <p><%= thisBook.description %></p>
+                <p><%= book.description %></p>
                 <div class="rating">
                     <% for(let i = 1; i <= 5; i++) { %>
-                        <% if (i <= thisBook.rating) { %>
+                        <% if (i <= book.rating) { %>
                             <span class="star filled">★</span>
                         <% } else { %>
                             <span class="star">☆</span>
@@ -49,15 +49,15 @@
                     <h3>Note <%= note.id %></h3>
                     <p><%= note.content %></p>
                     <p><%= note.created_at %></p>
-                    <button>
-                        Delete
-                    </button>
+                    <form action="/book/<%= book.id %>/deleteNote/<%= note.id %>" method="POST" onsubmit="return confirm('Delete this note?')">
+                        <button type="submit">Delete</button>
+                    </form>
                 </div>
             <% } %>
         </div>
         <div class="new-note">
             <h2>New Note</h2>
-            <form action="/newNote/<%= bookId %>" method="POST" class="new-note-box">
+            <form action="/newNote/<%= book.id %>" method="POST" class="new-note-box">
                 <textarea name="note" id="new-note"></textarea>
                 <button type="submit">+ Add Note</button>
             </form>

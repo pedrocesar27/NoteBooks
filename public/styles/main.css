@@ -237,6 +237,7 @@ body{
 
 .book-description{
     grid-column: 1/3;
+    word-break: break-all;
 }
 
 .book-description p{

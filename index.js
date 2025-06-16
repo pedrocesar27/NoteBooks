@@ -104,9 +104,8 @@ app.get("/book/:id", requireLogin, async (req, res) => {
     notes = resultNotes.rows;
 
     res.render("book.ejs", { 
-        thisBook: book,
-        listNotes: notes,
-        bookId: book.id
+        book: book,
+        listNotes: notes
     });
 })
 
@@ -180,11 +179,30 @@ app.post("/newNote/:id", requireLogin, async (req, res) => {
     books = result.rows;
     const findBook = books.find((book) => book.id == bookId)
     if(findBook){
-        await db.query("INSERT INTO notes (book_id, user_id, content) VALUES ($1, $2, $3);", [findBook.id, currentUserId, note]);
-        res.status(200);
-        res.redirect(`/book/${bookId}`);
+        try{
+            await db.query("INSERT INTO notes (book_id, user_id, content) VALUES ($1, $2, $3);", [findBook.id, currentUserId, note]);
+            res.status(200);
+            res.redirect(`/book/${bookId}`);
+        }catch(error){
+            console.error("Error inserting note:", error);
+            res.status(500).send("Internal Server Error");
+        }
     } else {
         res.sendStatus(404);
+    }
+});
+
+app.post("/book/:bookId/deleteNote/:noteId", requireLogin, async (req, res) => {
+    const { bookId, noteId } = req.params;
+    const currentUserId = req.session.userId;
+
+    try{
+        await db.query("DELETE FROM notes WHERE id = $1 AND user_id = $2 AND book_id = $3", [noteId, currentUserId, bookId]);
+        res.status(200);
+        res.redirect(`/book/${bookId}`);
+    } catch(error) {
+        console.error("Error deleting note:", error);
+        res.status(500).send("Internal Server Error");
     }
 });
 
