@@ -198,10 +198,22 @@ app.post("/book/:bookId/deleteNote/:noteId", requireLogin, async (req, res) => {
 
     try{
         await db.query("DELETE FROM notes WHERE id = $1 AND user_id = $2 AND book_id = $3", [noteId, currentUserId, bookId]);
-        res.status(200);
         res.redirect(`/book/${bookId}`);
     } catch(error) {
         console.error("Error deleting note:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+app.post("/deleteBook/:bookId", requireLogin, async (req, res) => {
+    const bookId = req.params.bookId;
+    const currentUserId = req.session.userId;
+
+    try{
+        await db.query("DELETE FROM books WHERE id = $1 AND user_id = $2", [bookId, currentUserId]);
+        res.redirect("/");
+    } catch(error) {
+        console.error("Error deleting book:", error);
         res.status(500).send("Internal Server Error");
     }
 });

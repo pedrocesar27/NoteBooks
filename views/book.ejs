@@ -28,6 +28,9 @@
             <div class="book-title">
                 <h1><%= book.title %></h1>
                 <h2><%= book.author %></h2>
+                <form action="/deleteBook/<%= book.id %>" method="POST" onsubmit="return confirm('Delete this book?')">
+                    <button type="submit">Delete</button>
+                </form>
             </div>
             <div class="book-description">
                 <p><%= book.description %></p>
