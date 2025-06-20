@@ -74,7 +74,7 @@ app.get("/logout", (req, res) => {
     req.session.destroy(error => {
         if(error) {
             console.log(error);
-            return res.redirect("/");
+            return res.status(500).redirect("/");
         }
         res.clearCookie("connect.sid");
         res.redirect("/login");
@@ -88,25 +88,31 @@ app.get("/createAccount", async (req, res) => {
 app.get("/book/:id", requireLogin, async (req, res) => {
     const bookId = req.params.id;
     const currentUserId = req.session.userId;
-    const result = await db.query("SELECT * FROM books WHERE id = $1 AND user_id = $2;", [
-        bookId, currentUserId
-    ]);
-    const book = result.rows[0];
 
-    if(!book){
-        res.status()
-        return res.redirect("/");
+    try {
+        const result = await db.query("SELECT * FROM books WHERE id = $1 AND user_id = $2;", [
+            bookId, currentUserId
+        ]);
+        const book = result.rows[0];
+
+        if(!book){
+            return res.status(404).send("Not found.");
+        }
+
+        const resultNotes = await db.query("SELECT * FROM notes WHERE book_id = $1 AND user_id = $2;", [
+            bookId, currentUserId
+        ]);
+        notes = resultNotes.rows;
+
+        res.render("book.ejs", { 
+            book,
+            listNotes: notes
+        });
+    } catch (error) {
+        console.error("Error fetching book page:", error);
+        res.status(500).send("Internal Server Error");
     }
-
-    const resultNotes = await db.query("SELECT * FROM notes WHERE book_id = $1 AND user_id = $2;", [
-        bookId, currentUserId
-    ]);
-    notes = resultNotes.rows;
-
-    res.render("book.ejs", { 
-        book: book,
-        listNotes: notes
-    });
+    
 })
 
 app.get("/", requireLogin, async (req, res) => {
@@ -127,7 +133,7 @@ app.post("/login", async (req, res) => {
         await db.query("UPDATE users SET last_login = NOW() WHERE id = $1", [user.id]);
         res.redirect("/");
     } else {
-        res.render("login.ejs", { error : "Invalid email or password." });
+        res.status(400).render("login.ejs", { error : "Invalid email or password." });
     }
 });
 
@@ -136,11 +142,11 @@ app.post("/createAccount", async (req, res) => {
 
     const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
     if(result.rows.length > 0) {
-        return res.render("createAccount.ejs", { error : "Email is already in use" });
+        return res.status(409).render("createAccount.ejs", { error : "Email is already in use." });
     }
 
     if(fPassword !== lPassword){
-        return res.render("createAccount.ejs", { error : "Passwords do not match." });
+        return res.status(422).render("createAccount.ejs", { error : "Passwords do not match." });
     }
 
     const hashedPassword = await bcrypt.hash(fPassword, saltRounds);
@@ -163,7 +169,7 @@ app.post("/addBook", requireLogin, async (req, res) => {
     books = result.rows;
     const findBook = books.find((book) => book.title == bookTitle);
     if(findBook){
-        return res.render("index.ejs", { error: "Book has already been added!" });
+        return res.status(409).render("index.ejs", { error: "Book has already been added!" });
     }
     await db.query("INSERT INTO books (user_id, title, author, description, rating) VALUES ($1, $2, $3, $4, $5);", 
         [currentUserId, bookTitle, bookAuthor, bookDescription, rating]);
@@ -181,14 +187,13 @@ app.post("/newNote/:id", requireLogin, async (req, res) => {
     if(findBook){
         try{
             await db.query("INSERT INTO notes (book_id, user_id, content) VALUES ($1, $2, $3);", [findBook.id, currentUserId, note]);
-            res.status(200);
             res.redirect(`/book/${bookId}`);
         }catch(error){
             console.error("Error inserting note:", error);
             res.status(500).send("Internal Server Error");
         }
     } else {
-        res.sendStatus(404);
+        res.status(404).send("Not found.");
     }
 });
 
