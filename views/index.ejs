@@ -18,22 +18,36 @@
             <div class="nav-items">
                 <ul>
                     <li><a href="/read" class="read">Something to read</a></li>
-                    <li><button id="add-book-btn">+ Add Book</button></li>
+                    <li><button class="add-book-btn add-nav">+ Add Book</button></li>
                     <li><a href="/logout" class="logout">Log out</a></li>
                 </ul>
             </div>
+            <div class="sidebar-item">
+                <button>
+                    <img src="/assets/icons/list.svg" alt="list sidebar button">
+                </button>
+            </div>
         </div>
     </header>
+    <section class="sidebar">
+        <button class="exit-button exit-side"><img src="/assets/icons/x.svg" alt="exit button"></button>
+        <ul>
+            <li><a href="/read" class="read">Something to read</a></li>
+            <li><a href="/logout" class="logout">Log out</a></li>
+            <li><button class="add-book-btn add-side">+ Add Book</button></li>
+        </ul>
+    </section>
     <section class="button-book">
         <div class="content-new-book">
             <h3>Add a new Book</h3>
+            <button class="exit-button exit-new"><img src="/assets/icons/x.svg" alt="exit button"></button>
             <form class="add-book" action="/addBook" method="POST">
                 <input type="text" class="input-new" name="bookTitle" id="new-title" placeholder="Book title">
                 <input type="text" class="input-new" name="bookAuthor" id="new-author" placeholder="Book author">
                 <textarea class="input-new" name="bookDescription" id="new-description" placeholder="Book description" wrap="hard"></textarea>
                 <input type="number" class="input-new" name="bookRate" id="new-rate" min="1" max="5" placeholder="Book rate">
 
-                <button type="submit">Add Book</button>
+                <button type="submit" class="submit-new">Add Book</button>
             </form>
         </div>
     </section>
