@@ -10,6 +10,7 @@ import { Strategy } from "passport-local";
 dotenv.config();
 
 const saltRounds = 10;
+const API_URL = "https://openlibrary.org";
 const app = express();
 const port = 3001;
 const db = new pg.Client({
@@ -98,6 +99,10 @@ app.get("/", requireLogin, async (req, res) => {
         user: req.user
     });
 });
+
+app.get("/read", requireLogin, async (req, res) => {
+    res.render("read.ejs");
+})
 
 app.post("/login", (req, res, next) => {
     passport.authenticate("local", (error, user, info) => {

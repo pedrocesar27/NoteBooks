@@ -3,9 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/main.css">
     <title>Document</title>
 </head>
 <body>
-    
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <img src="/assets/icons/journal-bookmark-fill.svg" alt="logo notebooks">
+                <h3>
+                    NoteBooks
+                </h3>
+            </div>
+            <div class="nav-items">
+                <a href="/logout" class="logout">Log out</a>
+            </div>
+        </div>
+    </header>
+    <section class="read-welcome">
+        <h1>Want to try something new?</h1>
+        <div class="box-criteria">
+            <form class="criteria-form" action="/read" method="post">
+                <label for="genre">Genre:</label>
+                <input type="text">
+
+                <button type="submit">Get Suggestion</button>
+            </form>
+        </div>
+    </section>
 </body>
 </html>
