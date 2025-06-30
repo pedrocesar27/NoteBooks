@@ -25,11 +25,22 @@
         <div class="box-criteria">
             <form class="criteria-form" action="/read" method="post">
                 <label for="genre">Genre:</label>
-                <input type="text">
+                <input type="text" name="genre" id="genre" placeholder="Ex: romance, action, horror">
 
                 <button type="submit">Get Suggestion</button>
             </form>
         </div>
+        <% if(book){ %>
+            <div class="recommendation">
+                <div class="book-icon">
+                    <img src="/assets/icons/book.svg" alt="book item icon">
+                </div>
+                <div class="book-title">
+                    <h1><%= bookTitle %></h1>
+                    <h2><%= bookAuthor %></h2>
+                </div>
+            </div>
+        <% } %>
     </section>
 </body>
 </html>

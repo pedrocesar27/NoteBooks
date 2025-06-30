@@ -101,7 +101,11 @@ app.get("/", requireLogin, async (req, res) => {
 });
 
 app.get("/read", requireLogin, async (req, res) => {
-    res.render("read.ejs");
+    res.render("read.ejs", {
+        bookTitle: null,
+        bookAuthor: null,
+        book: null
+    });
 })
 
 app.post("/login", (req, res, next) => {
@@ -125,6 +129,12 @@ app.post("/createAccount", async (req, res) => {
     const { username, email, fPassword, lPassword } = req.body;
 
     const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+
+
+    if (req.body.email.length > 50 || req.body.username.length > 50) {
+        return res.status(400).render("createAccount.ejs", { error: "Too much characters." });
+    }
+
     if (result.rows.length > 0) {
         return res.status(409).render("createAccount.ejs", { error: "Email is already in use." });
     }
@@ -155,6 +165,11 @@ app.post("/addBook", requireLogin, async (req, res) => {
     if (findBook) {
         return res.status(409).render("index.ejs", { error: "Book has already been added!" });
     }
+
+    if (findBook) {
+        return res.status(409).render("index.ejs", { error: "Book has already been added!" });
+    }
+
     await db.query("INSERT INTO books (user_id, title, author, description, rating) VALUES ($1, $2, $3, $4, $5);",
         [currentUserId, bookTitle, bookAuthor, bookDescription, rating]);
 
@@ -205,6 +220,18 @@ app.post("/deleteBook/:bookId", requireLogin, async (req, res) => {
         console.error("Error deleting book:", error);
         res.status(500).send("Internal Server Error");
     }
+});
+
+app.post("/read", requireLogin, async (req, res) => {
+    const result = await axios.get(API_URL + "/subjects/" + req.body.genre + ".json");
+    const recommendedBooks = result.data.works;
+    const randomBook = Math.floor(Math.random() * recommendedBooks.length);
+    const book = recommendedBooks[randomBook];
+    res.render("read.ejs", {
+        bookTitle: book.title,
+        bookAuthor: book.authors[0].name,
+        book
+    })
 });
 
 passport.use(new Strategy({

@@ -82,7 +82,7 @@ body{
 
 .item{
     display: grid;
-    grid-template-columns: 12vh 25vh;
+    grid-template-columns: 12vh 60vh;
     margin-block: 0;
     cursor: pointer;
     border: 2px solid rgb(92, 92, 0);
@@ -285,7 +285,7 @@ body{
 }
 
 .book-notes{
-    width: 60vh;
+    width: 70vh;
     justify-content: left;
     display: flex;
     flex-direction: column;
@@ -321,7 +321,7 @@ body{
 }
 
 .new-note{
-    width: 60vh;
+    width: 70vh;
     justify-content: left;
     margin-top: 5vh;
     margin-bottom: 3vh;
@@ -441,7 +441,21 @@ body{
     color: white;
 }
 
+.recommendation{
+    display: grid;
+    grid-template-columns: 12vh 30vh;
+    margin-block: 0;
+    border: 2px solid rgb(92, 92, 0);
+    background-color: rgb(255, 244, 230);
+    border-radius: 15px;
+    padding: 1.5%;
+    margin-top: 3%;
+}
+
 @media(max-width: 850px) {
+    .item{
+        grid-template-columns: 12vh 25vh;
+    }
 
     .nav-items{
         display: none;
