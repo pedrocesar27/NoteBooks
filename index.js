@@ -104,7 +104,8 @@ app.get("/read", requireLogin, async (req, res) => {
     res.render("read.ejs", {
         bookTitle: null,
         bookAuthor: null,
-        book: null
+        book: null,
+        error: null
     });
 })
 
@@ -223,15 +224,29 @@ app.post("/deleteBook/:bookId", requireLogin, async (req, res) => {
 });
 
 app.post("/read", requireLogin, async (req, res) => {
-    const result = await axios.get(API_URL + "/subjects/" + req.body.genre + ".json");
-    const recommendedBooks = result.data.works;
-    const randomBook = Math.floor(Math.random() * recommendedBooks.length);
-    const book = recommendedBooks[randomBook];
-    res.render("read.ejs", {
-        bookTitle: book.title,
-        bookAuthor: book.authors[0].name,
-        book
-    })
+    try{
+        const result = await axios.get(API_URL + "/subjects/" + req.body.genre + ".json");
+        const recommendedBooks = result.data.works;
+        if(!recommendedBooks || recommendedBooks.length === 0){
+            return res.status(404).render("read.ejs", {
+                bookTitle: null,
+                bookAuthor: null,
+                book: null,
+                error: "Gender not found"
+            })
+        }
+        const randomBook = Math.floor(Math.random() * recommendedBooks.length);
+        const book = recommendedBooks[randomBook];
+        res.render("read.ejs", {
+            bookTitle: book.title,
+            bookAuthor: book.authors[0].name,
+            book,
+            error: null
+        })
+    } catch (error) {
+        console.error("Error finding book:", error);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 passport.use(new Strategy({

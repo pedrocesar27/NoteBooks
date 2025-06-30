@@ -30,6 +30,12 @@
                 <button type="submit">Get Suggestion</button>
             </form>
         </div>
+        <% if(error){ %>
+            <div class="error-box">
+                <h3>Something went wrong!</h3>
+                <p><%= error %></p>
+            </div>
+        <% } %>
         <% if(book){ %>
             <div class="recommendation">
                 <div class="book-icon">
