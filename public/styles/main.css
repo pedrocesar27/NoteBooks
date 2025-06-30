@@ -59,7 +59,8 @@ body{
     flex-direction: row;
     margin-left: 8%;
     gap: 1vh;
-
+    text-decoration: none;
+    color: black;
 }
 
 .welcome{
