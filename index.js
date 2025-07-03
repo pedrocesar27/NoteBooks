@@ -244,7 +244,7 @@ app.post("/read", requireLogin, async (req, res) => {
             error: null
         })
     } catch (error) {
-        console.error("Error finding book:", error);
+        console.error("Error: ", error);
         res.status(500).send("Internal Server Error");
     }
 });

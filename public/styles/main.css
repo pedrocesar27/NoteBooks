@@ -366,7 +366,7 @@ body{
 .sidebar{
     display: none;
     position: fixed;
-    height: 20vh;
+    height: 26vh;
     background-color:rgb(231, 217, 199);
     z-index: 1500;
     width: 30vh;
@@ -378,10 +378,26 @@ body{
 
 .sidebar ul{
     list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5vh;
+    font-size: 2.5vh;
+    margin-top: 22%;
 }
 
-.sidebar li{
-    gap: 5vh;
+.sidebar a{
+    text-decoration: none;
+
+}
+
+.add-book-btn{
+    background-color: rgb(92, 92, 0);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    height: 5vh;
+    width: 60%;
+    font-size: 0.9rem;
 }
 
 .exit-button {
@@ -396,6 +412,8 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 3vh;
+    color: rgb(92, 92, 0);
 }
 
 .exit-button img{
