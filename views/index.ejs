@@ -58,6 +58,18 @@
             <h1>Hello, <%= user.username %>!</h1>
         </div>
         <h2>Your NoteBooks</h2>
+        <% if(listItems.length > 0){ %>
+            <form class="search-books" action="/search" method="get">
+                <input type="text" name="search" placeholder="Search for a book..." class="search-input">
+                <button type="submit" class="search-button"><img src="/assets/icons/icons8-search.svg" alt="magnifier"></button>
+            </form>
+        <% } %>
+        <% if(noFound){ %>
+            <div class="error-box">
+                <h3>Something went wrong!</h3>
+                <p><%= error %></p>
+            </div>
+        <% } %>    
         <% for(let item of listItems){ %>
             <div class="item" data-id="<%= item.id %>">
                 <div class="book-item">

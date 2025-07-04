@@ -96,7 +96,8 @@ app.get("/", requireLogin, async (req, res) => {
     books = result.rows;
     res.render("index.ejs", {
         listItems: books,
-        user: req.user
+        user: req.user,
+        noFound: false
     });
 });
 
@@ -108,6 +109,33 @@ app.get("/read", requireLogin, async (req, res) => {
         error: null
     });
 })
+
+app.get("/search", requireLogin, async(req, res) => {
+    const currentUser = req.user;
+    const searchTitle = req.query.search.toLowerCase();
+
+    try{
+        const result = await db.query("SELECT * FROM books WHERE user_id = $1 ORDER BY id ASC", [currentUser.id]);
+        books = result.rows;
+        const filteredBooks = books.filter(book =>
+            book.title.toLowerCase().includes(searchTitle)
+        )
+        res.render("index.ejs", {
+            listItems: filteredBooks.length > 0 ? filteredBooks : books,
+            user: req.user,
+            noFound: filteredBooks.length === 0,
+            error: filteredBooks.length === 0 ? "No results" : null
+        });
+    } catch (error) {
+        console.error("Search error: ", error);
+        res.status(500).render("index.ejs", {
+            listItems: [],
+            user: req.user,
+            noFound: true,
+            error: "Something went wrong while searching."
+        });
+    }
+});
 
 app.post("/login", (req, res, next) => {
     passport.authenticate("local", (error, user, info) => {

@@ -1,5 +1,5 @@
 body{
-    background-color: antiquewhite;
+    background-color: bisque;
     margin: 0;
     overflow-x: hidden;
 }
@@ -11,7 +11,7 @@ body{
 .navbar{
     width: 100%;
     height: 10vh;
-    background-color: rgb(231, 217, 199);
+    background-color: rgb(240, 215, 185);
     position: fixed;
     display: flex;
     flex-direction: row;
@@ -87,7 +87,7 @@ body{
     margin-block: 0;
     cursor: pointer;
     border: 2px solid rgb(92, 92, 0);
-    background-color: rgb(255, 244, 230);
+    background-color: rgb(255, 235, 211);
     border-radius: 15px;
     padding: 1.5%;
 }
@@ -148,7 +148,7 @@ body{
     right: 3vh;
     height: 40vh;
     width: 40vh;
-    background-color: rgb(224, 211, 193);
+    background-color: rgb(255, 235, 211);
     box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
     border-radius: 10px;
     border: 2px solid rgb(92, 92, 0);
@@ -172,7 +172,7 @@ body{
 }
 
 .input-new{
-    background-color: antiquewhite;
+    background-color: bisque;
     height: 3vh;
     width: 30vh;
     border: none;
@@ -315,7 +315,7 @@ body{
 
 .note button{
     grid-column: 2;
-    background-color: antiquewhite;
+    background-color: bisque;
     color: rgb(179, 0, 0);
     border: 0;
     cursor: pointer;
@@ -351,23 +351,31 @@ body{
 }
 
 .sidebar-item button{
+    position: fixed;
+    top: 1.5%;
+    right: 3vh;
+    height: 7vh;
+    width: 7vh;
+    border-radius: 50%;
+    background-color: rgb(255, 235, 211);
     border: none;
-    border-radius: 100px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
     justify-content: center;
     align-items: center;
-    background-color:rgb(231, 217, 199);
-    margin-right: 5vh;
+    z-index: 2000;
+    cursor: pointer;
 }
 
 .sidebar-item img{
-    height: 2.2vh;
+    height: 2.8vh;
 }
 
 .sidebar{
     display: none;
     position: fixed;
     height: 26vh;
-    background-color:rgb(231, 217, 199);
+    background-color:rgb(255, 235, 211);
     z-index: 1500;
     width: 30vh;
     top: 12vh;
@@ -405,7 +413,7 @@ body{
     width: 4vh;
     border: none;
     border-radius: 100px;
-    background-color: antiquewhite;
+    background-color: bisque;
     position: absolute;
     right: 2vh;
     top: 2vh;
@@ -431,7 +439,7 @@ body{
 
 .box-criteria{
     border: 2px solid rgb(92, 92, 0);
-    background-color: rgb(255, 244, 230);
+    background-color: rgb(255, 235, 211);
     border-radius: 15px;
     padding: 1.5%;
 }
@@ -446,7 +454,7 @@ body{
 .criteria-form input{
     height: 2rem;
     width: 20vw;
-    background-color: antiquewhite;
+    background-color: bisque;
     border: 1px solid rgb(92, 92, 0);
     border-radius: 12px;
 }
@@ -465,7 +473,7 @@ body{
     grid-template-columns: 12vh 30vh;
     margin-block: 0;
     border: 2px solid rgb(92, 92, 0);
-    background-color: rgb(255, 244, 230);
+    background-color: rgb(255, 235, 211);
     border-radius: 15px;
     padding: 1.5%;
     margin-top: 3%;
@@ -477,11 +485,52 @@ body{
     justify-content: center;
     align-items: center;
     border: 2px solid rgb(179, 0, 0);
-    background-color: rgb(255, 244, 230);
+    background-color: rgb(255, 235, 211);
     border-radius: 15px;
     padding: 1.5%;
-    margin-top: 3%;
+    margin-top: 0%;
     color: rgb(179, 0, 0);
+}
+
+.search-books {
+  position: relative;
+  width: 80%;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.search-input{
+    width: 100%;
+    padding: 12px 40px 12px 15px; /* padding-right for icon space */
+    border-radius: 25px;
+    border: 2px solid rgb(109, 109, 0);
+    font-size: 1rem;
+    background-color: rgb(240, 215, 185);
+    outline: none;
+}
+
+.search-input::placeholder{
+    color: rgb(39, 39, 39);
+}
+
+.search-button {
+  position: absolute;
+  right: 0%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  cursor: pointer;
+  background-color: rgb(109, 109, 0);
+  height: 97%;
+  width: 15%;
+  border-end-end-radius: 25px;
+  border-start-end-radius: 25px;
+}
+
+.search-button img {
+  height: 20px;
+  opacity: 0.7;
 }
 
 @media(max-width: 850px) {
