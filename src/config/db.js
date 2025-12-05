@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 export const db = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
     user: process.env.DB_USER,
