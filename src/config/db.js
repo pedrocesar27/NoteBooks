@@ -5,12 +5,20 @@ dotenv.config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-export const db = new pg.Pool({
-    connectionString: process.env.DATABASE_URL,
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT,
-    ssl: isProduction ? { rejectUnauthorized: false } : false
-})
+const connectionString = process.env.DATABASE_URL;
+const isLocalhost = connectionString && connectionString.includes('localhost');
+
+const dbConfig = process.env.DATABASE_URL 
+    ? { 
+        connectionString: process.env.DATABASE_URL,
+        ssl: isProduction && !isLocalhost ? { rejectUnauthorized: false } : false
+      } 
+    : {
+        user: process.env.DB_USER,
+        host: process.env.DB_HOST,
+        database: process.env.DB_DATABASE,
+        password: process.env.DB_PASSWORD,
+        port: process.env.DB_PORT,
+      };
+
+export const db = new pg.Pool(dbConfig);
