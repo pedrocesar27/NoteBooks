@@ -113,6 +113,13 @@
                 </p>
             </div>
         <% } %>
+        <% if(listItems.length == 0){ %>
+            <div class="container-no-books">
+                <img src="/assets/images/coruja_triste.png" alt="Coruja lendo um livro chorando muito">
+                <h2>Waiting for you to add a new book...</h2>
+            </div>
+            
+        <% } %>
     </section>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
