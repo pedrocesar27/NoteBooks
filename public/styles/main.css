@@ -544,17 +544,17 @@ body{
 }
 
 .container-no-books {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: absolute;
-    top: 35vh;
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .container-no-books img {
-    width: 25vw;
+    width: 100%;
     height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 @media(max-width: 850px) {
